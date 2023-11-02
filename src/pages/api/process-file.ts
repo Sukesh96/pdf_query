@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import formidable, { Fields, Files } from "formidable"; // to handle file uploads
+import formidable, { Fields, Files } from "formidable";
 
 import { TextEmbedding } from "../../types/file";
 import extractTextFromFile from "../../services/extractTextFromFile";
 import { createEmbeddings } from "../../services/createEmbeddings";
 
-// Disable the default body parser to handle file uploads
+
 export const config = { api: { bodyParser: false } };
 
 type Data = {
@@ -15,7 +15,7 @@ type Data = {
   error?: string;
 };
 
-// This function receives a file as a multipart form and returns the text extracted fom the file and the OpenAI embedding for that text
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -25,9 +25,9 @@ export default async function handler(
     return;
   }
 
-  // Create a formidable instance to parse the request as a multipart form
+  
   const form = new formidable.IncomingForm();
-  form.maxFileSize = 30 * 1024 * 1024; // Set the max file size to 30MB
+  form.maxFileSize = 30 * 1024 * 1024;
 
   try {
     const { fields, files } = await new Promise<{
@@ -61,7 +61,6 @@ export default async function handler(
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   } finally {
-    // Always send a response, even if it is empty
     res.end();
   }
 }

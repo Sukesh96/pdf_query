@@ -14,7 +14,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  // Only accept POST requests
+  
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -53,19 +53,19 @@ export default async function handler(
       prompt,
     });
 
-    // Set the response headers for streaming
+    
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache, no-transform",
       Connection: "keep-alive",
     });
 
-    // Write the data from the stream to the response
+    
     for await (const data of stream) {
       res.write(data);
     }
 
-    // End the response when the stream is done
+    
     res.end();
   } catch (error) {
     console.error(error);

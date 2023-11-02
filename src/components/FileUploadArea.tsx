@@ -18,7 +18,6 @@ type FileUploadAreaProps = {
     handleSetFiles: Dispatch<SetStateAction<FileLite[]>>;
     maxNumFiles: number;
     maxFileSizeMB: number;
-    // ref: HTMLElement | null;
 };
 
 function FileUploadArea(props: FileUploadAreaProps) {
@@ -36,7 +35,7 @@ function FileUploadArea(props: FileUploadAreaProps) {
                 setError("");
 
                 if (files.length + selectedFiles.length > props.maxNumFiles) {
-                    setError(`You can only upload up to ${props.maxNumFiles} files.`);
+                    setError(`You can only upload up to ${props.maxNumFiles} file.`);
                     if (dropzoneRef.current) {
                         (dropzoneRef.current as any).value = "";
                     }
@@ -47,16 +46,15 @@ function FileUploadArea(props: FileUploadAreaProps) {
 
                 const uploadedFiles = await Promise.all(
                     Array.from(selectedFiles).map(async (file) => {
-                        // Check the file type
+                        
                         if (
                             file.type.match(
                                 /(text\/plain|application\/(pdf|msword|vnd\.openxmlformats-officedocument\.wordprocessingml\.document)|text\/(markdown|x-markdown))/
-                            ) && // AND file isn't too big
+                            ) &&
                             file.size < props.maxFileSizeMB * 1024 * 1024
                         ) {
-                            // Check if the file name already exists in the files state
                             if (files.find((f) => f.name === file.name)) {
-                                return null; // Skip this file
+                                return null;
                             }
 
                             const formData = new FormData();
@@ -104,15 +102,13 @@ function FileUploadArea(props: FileUploadAreaProps) {
                             alert(
                                 `Invalid file type or size. Only TXT, PDF, DOCX or MD are allowed, up to ${props.maxFileSizeMB}MB.`
                             );
-                            return null; // Skip this file
+                            return null;
                         }
                     })
                 );
 
-                // Filter out any null values from the uploadedFiles array
                 const validFiles = compact(uploadedFiles);
 
-                // Set the files state with the valid files and the existing files
                 setFiles((prevFiles) => [...prevFiles, ...validFiles]);
                 handleSetFiles((prevFiles) => [...prevFiles, ...validFiles]);
 
@@ -147,7 +143,8 @@ function FileUploadArea(props: FileUploadAreaProps) {
     );
 
     return (
-        <div className="fileUA flex items-center justify-center w-full flex-col">
+        <div className="fileUA w-full overflow-y-auto h-full block">
+
             {files.length == 0 && <div className="fileUA__container">
                 <label
                     htmlFor="dropzone-file"
@@ -173,28 +170,29 @@ function FileUploadArea(props: FileUploadAreaProps) {
                                     PDF (max {props.maxFileSizeMB}MB per file)
                                 </p>
                                 <p className="text-xs mt-1">
-                                    You can upload up to {props.maxNumFiles - files.length} more{" "}
-                                    {props.maxNumFiles - files.length === 1 ? "file" : "files"}
+                                    {/* You can upload up to {props.maxNumFiles - files.length} {" "}
+                                    {props.maxNumFiles - files.length === 1 ? "file" : "files"} */}
+
+                                    Please upload a PDF file.
                                 </p>
                                 <input
                                     id="dropzone-file"
                                     type="file"
                                     className="hidden"
-                                    multiple
+                                    // multiple
                                     onChange={(event) => handleFileChange(event.target.files)}
                                 />
                             </div>
                         )}
                     </div>
+                    {error && (
+                        <div className="flex items-center justify-center w-full">
+                            <p className="text-sm text-red-500">{error}</p>
+                        </div>
+                    )}
                 </label>
             </div>
             }
-
-            {error && (
-                <div className="flex items-center justify-center w-full mt-4">
-                    <p className="text-sm text-red-500">{error}</p>
-                </div>
-            )}
 
             <FileViewerList files={files} title="Uploaded Files" />
         </div>

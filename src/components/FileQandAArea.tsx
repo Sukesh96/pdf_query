@@ -45,7 +45,7 @@ function FileQandAArea(props: FileQandAAreaProps) {
         if (questionRef != null && questionRef.current != null) {
             (questionRef.current as any).value = null;
         }
-        
+
         let results: FileChunk[] = [];
 
         try {
@@ -137,29 +137,6 @@ function FileQandAArea(props: FileQandAAreaProps) {
                             </ReactMarkdown>
                         </div>
                     )}
-
-                    {/* <Transition
-                show={
-                props.files.filter((file) =>
-                    isFileNameInString(file.name, answer)
-                ).length > 0
-                }
-                enter="transition duration-600 ease-out"
-                enterFrom="transform opacity-0"
-                enterTo="transform opacity-100"
-                leave="transition duration-125 ease-out"
-                leaveFrom="transform opacity-100"
-                leaveTo="transform opacity-0"
-                className="mb-8"
-            >
-                <FileViewerList
-                files={props.files.filter((file) =>
-                    isFileNameInString(file.name, answer)
-                )}
-                title="Sources"
-                listExpanded={true}
-                />
-            </Transition> */}
                 </Transition>
                 {!hasAskedQuestion && <div className="initial-text">
                     To initiate the process of asking questions about your uploaded PDF, kindly click or drag and drop file(s) onto the button located on the left side.
