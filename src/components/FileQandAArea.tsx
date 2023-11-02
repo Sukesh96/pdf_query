@@ -174,7 +174,7 @@ function FileQandAArea(props: FileQandAAreaProps) {
                 </div>
                 <div className="fileQA__action--group">
                     <input
-                        placeholder="e.g. What were the key takeaways from the Q1 planning meeting?"
+                        placeholder="Write your question related to the PDF you uploaded."
                         name="search"
                         ref={questionRef}
                         onKeyDown={handleEnterInSearchBar}

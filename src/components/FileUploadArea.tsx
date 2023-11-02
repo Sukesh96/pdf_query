@@ -170,7 +170,7 @@ function FileUploadArea(props: FileUploadAreaProps) {
                                     and drop
                                 </p>
                                 <p className="text-xs">
-                                    TXT, PDF, DOCX (max {props.maxFileSizeMB}MB per file)
+                                    PDF (max {props.maxFileSizeMB}MB per file)
                                 </p>
                                 <p className="text-xs mt-1">
                                     You can upload up to {props.maxNumFiles - files.length} more{" "}
